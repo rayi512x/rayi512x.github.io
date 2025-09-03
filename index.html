@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Latihan Tabel HTML</title>
+
+<style>
+* {
+  font-family: sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+  text-align: center;
+}
+
+table {
+  margin: auto;
+  width: 80%;
+}
+
+thead {
+  background-color: green;
+  color: white;
+}
+
+tfoot {
+  background-color: lightgray;
+  color: black;
+}
+
+th, td {
+  padding: 8px;
+}
+
+table caption {
+  font-size: large;
+  margin: 16px auto;
+  font-weight: bold;
+}
+.hari-libur {
+  background-color: yellow;
+}
+</style>
+
+  </head>
+  <body onload="updatePenjualan()">
+
+    <table border="1" id="penjualan">
+      <caption>
+        Latihan Tabel Penjualan Produk
+      </caption>
+
+      <thead>
+        <tr>
+          <th>No</th>
+          <th>Produk</th>
+          <th>Jumlah Terjual</th>
+          <th>Harga Satuan</th>
+          <th>Total Harga</th>
+        </tr>
+      </thead>
+
+      <tbody contenteditable="true">
+        <tr>
+          <td>1</td>
+          <td>Produk A</td>
+          <td>12</td>
+          <td>50000</td>
+          <td>0</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>Produk B</td>
+          <td>8</td>
+          <td>70000</td>
+          <td>0</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>Produk C</td>
+          <td>15</td>
+          <td>40000</td>
+          <td>0</td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td>Produk D</td>
+          <td>5</td>
+          <td>90000</td>
+          <td>0</td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td>Produk E</td>
+          <td>10</td>
+          <td>60000</td>
+          <td>0</td>
+        </tr>
+      </tbody>
+
+      <tfoot>
+        <th colspan="4">Total Penjualan</th>
+        <td>0</td>
+      </tfoot>
+
+    </table>
+
+    <table border="1">
+      <caption>
+        Latihan Tabel Jadwal Kelas
+      </caption>
+
+      <thead>
+        <tr>
+          <th>Hari</th>
+          <th>Mata pelajaran</th>
+          <th>Jam</th>
+          <th>Guru</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr>
+          <td rowspan="2">Senin</td>
+          <td>Matematika</td>
+          <td>08.00-09.30</td>
+          <td>Budi</td>
+        </tr>
+        <tr>
+          <td>IPA</td>
+          <td>09.45-11.15</td>
+          <td>Siti</td>
+        </tr>
+        <tr>
+          <td>Selasa</td>
+          <td>Bahasa Indonesia</td>
+          <td>08.00-09.30</td>
+          <td>Ani</td>
+        </tr>
+        <tr>
+          <td>Rabu</td>
+          <td>IPS</td>
+          <td>08.00-09.30</td>
+          <td>Deni</td>
+        </tr>
+        <tr class="hari-libur">
+          <td>Sabtu</td>
+          <td>Olahraga</td>
+          <td>08.00-09.30</td>
+          <td>Rina</td>
+        </tr>
+      </tbody>
+
+    </table>
+
+<script>
+
+  const table = document.getElementById('penjualan');
+  table.addEventListener('focusout', updatePenjualan);
+  table.addEventListener('keydown', (e) => {if (e.keyCode === 13) {document.activeElement.blur(); updatePenjualan()}});
+
+  function updatePenjualan() {
+    let tp = 0;
+    let i = 1;
+
+    for (; i < table.rows.length - 1; i++) {
+      const qty = parseInt(table.rows[i].cells[2].innerText.replace(/\D/g,'')) || 0;
+      table.rows[i].cells[2].innerText = (parseInt(table.rows[i].cells[2].innerText.replace(/\D/g,'')) || 0).toLocaleString("id-ID");
+
+      const satuan = parseInt(table.rows[i].cells[3].innerText.replace(/\D/g,'')) || 0;
+      table.rows[i].cells[3].innerText = (parseInt(table.rows[i].cells[3].innerText.replace(/\D/g,'')) || 0).toLocaleString("id-ID");
+
+      tp += qty * satuan;
+      table.rows[i].cells[4].innerText = (qty * satuan).toLocaleString("id-ID");
+    }
+
+    table.rows[i].cells[1].innerText = tp.toLocaleString("id-ID");
+  }
+
+</script>
+
+  </body>
+</html>
