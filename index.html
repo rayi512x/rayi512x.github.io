@@ -48,6 +48,13 @@ table caption {
 .hari-libur {
   background-color: yellow;
 }
+
+.min-row  {
+  background-color: pink;
+}
+.max-row {
+  background-color: lightgreen;
+}
 </style>
 
   </head>
@@ -164,12 +171,18 @@ table caption {
 <script>
 
   const table = document.getElementById('penjualan');
+  const rows = table.getElementsByTagName("tr");
   table.addEventListener('focusout', updatePenjualan);
   table.addEventListener('keydown', (e) => {if (e.keyCode === 13) {document.activeElement.blur(); updatePenjualan()}});
 
   function updatePenjualan() {
     let tp = 0;
     let i = 1;
+    let values = [];
+    for (let i = 1; i < rows.length - 1; i++) {
+      if (rows[i].classList.contains("max-row")) rows[i].classList.remove("max-row");
+      if (rows[i].classList.contains("min-row")) rows[i].classList.remove("min-row");
+    }
 
     for (; i < table.rows.length - 1; i++) {
       const qty = parseInt(table.rows[i].cells[2].innerText.replace(/\D/g,'')) || 0;
@@ -183,6 +196,24 @@ table caption {
     }
 
     table.rows[i].cells[1].innerText = tp.toLocaleString("id-ID");
+
+    for (let i = 1; i < rows.length - 1; i++) {
+      let jumlah = parseInt(rows[i].cells[2].innerText.replace(/\D/g,''));
+      values.push(jumlah);
+    }
+
+    const minVal = Math.min(...values);
+    const maxVal = Math.max(...values);
+
+    for (let i = 1; i < rows.length - 1; i++) {
+      let jumlah = parseInt(rows[i].cells[2].innerText);
+      if (jumlah === minVal) {
+        rows[i].classList.add("min-row");
+      }
+      if (jumlah === maxVal) {
+        rows[i].classList.add("max-row");
+      }
+    }
   }
 
 </script>
